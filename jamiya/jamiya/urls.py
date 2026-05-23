@@ -15,11 +15,17 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path
+from django.urls import path, include
+from django.shortcuts import redirect
 
-from pages.views import page_view
+# 👇 home redirect
+def home_redirect(request):
+    return redirect('/ur/preface/')
 
 urlpatterns = [
+    path('', home_redirect),  # default Urdu page
     path('admin/', admin.site.urls),
-    path('<str:lang>/<slug:slug>/', page_view),  # 👈 main route
+
+    path('', include('pages.urls')),  # 👈 IMPORTANT LINE 🔥
+
 ]
